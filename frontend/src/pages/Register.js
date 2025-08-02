@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { authAPI } from '../services/api';
-import { BookOpen, User, Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { Truck, User, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 
 const Register = ({ onToggleMode }) => {
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
@@ -15,7 +15,7 @@ const Register = ({ onToggleMode }) => {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    background: 'linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #0f172a 100%)',
     padding: '2rem'
   };
 
@@ -140,7 +140,7 @@ const Register = ({ onToggleMode }) => {
     <div style={containerStyle}>
       <div style={cardStyle}>
         <div style={logoStyle}>
-          <BookOpen size={32} />
+          <Truck size={32} />
           <span>SEST SENAT</span>
         </div>
         

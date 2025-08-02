@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { coursesAPI } from '../services/api';
 import CourseCard from '../components/CourseCard';
-import { BookOpen, Plus, Search, Filter } from 'lucide-react';
+import { Truck, Plus, Search, Filter } from 'lucide-react';
+import VirtualAgent from '../components/VirtualAgent';
 
 const Dashboard = () => {
   const [courses, setCourses] = useState([]);
@@ -23,7 +24,8 @@ const Dashboard = () => {
 
   const containerStyle = {
     minHeight: '100vh',
-    background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
+    background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)',
+    position: 'relative'
     padding: '2rem'
   };
 
@@ -35,13 +37,14 @@ const Dashboard = () => {
   const titleStyle = {
     fontSize: '2.5rem',
     fontWeight: 'bold',
-    color: '#1f2937',
-    marginBottom: '0.5rem'
+    color: '#ffffff',
+    marginBottom: '0.5rem',
+    textShadow: '2px 2px 4px rgba(0,0,0,0.3)'
   };
 
   const subtitleStyle = {
     fontSize: '1.125rem',
-    color: '#6b7280'
+    color: '#e2e8f0'
   };
 
   const tabsStyle = {
@@ -112,7 +115,7 @@ const Dashboard = () => {
   const createButtonStyle = {
     position: 'fixed',
     bottom: '2rem',
-    right: '2rem',
+    left: '2rem',
     background: '#10b981',
     color: 'white',
     border: 'none',
@@ -206,7 +209,7 @@ const Dashboard = () => {
   if (loading) {
     return (
       <div style={{...containerStyle, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-        <div style={{fontSize: '1.5rem', color: '#6b7280'}}>Carregando...</div>
+        <div style={{fontSize: '1.5rem', color: '#e2e8f0'}}>Carregando...</div>
       </div>
     );
   }
@@ -227,7 +230,7 @@ const Dashboard = () => {
           style={tabStyle(activeTab === 'all')}
           onClick={() => setActiveTab('all')}
         >
-          <BookOpen size={20} style={{display: 'inline', marginRight: '0.5rem'}} />
+          <Truck size={20} style={{display: 'inline', marginRight: '0.5rem'}} />
           Todos os Cursos
         </button>
         <button
@@ -265,21 +268,37 @@ const Dashboard = () => {
 
       <div style={gridStyle}>
         {displayCourses.map(course => (
-          <CourseCard
-            key={course.id}
-            course={course}
-            onEnroll={handleEnroll}
-            isEnrolled={enrolledCourseIds.includes(course.id)}
-            showEnrollButton={activeTab === 'all'}
-          />
+          <div key={course.id} id={`course-${course.id}`}>
+            <CourseCard
+              course={course}
+              onEnroll={handleEnroll}
+              isEnrolled={enrolledCourseIds.includes(course.id)}
+              showEnrollButton={activeTab === 'all'}
+            />
+          </div>
         ))}
       </div>
 
       {displayCourses.length === 0 && (
-        <div style={{textAlign: 'center', color: '#6b7280', fontSize: '1.125rem'}}>
+        <div style={{textAlign: 'center', color: '#e2e8f0', fontSize: '1.125rem'}}>
           {activeTab === 'all' ? 'Nenhum curso encontrado' : 'Você ainda não se inscreveu em nenhum curso'}
         </div>
       )}
+
+      <VirtualAgent 
+        courses={courses} 
+        onCourseRecommend={(course) => {
+          // Scroll para o curso recomendado
+          const courseElement = document.getElementById(`course-${course.id}`);
+          if (courseElement) {
+            courseElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            courseElement.style.boxShadow = '0 0 20px rgba(59, 130, 246, 0.5)';
+            setTimeout(() => {
+              courseElement.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.1)';
+            }, 3000);
+          }
+        }}
+      />
 
       {isAdmin && (
         <button

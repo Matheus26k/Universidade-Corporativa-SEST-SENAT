@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
-import { LogOut, User, BookOpen } from 'lucide-react';
+import { LogOut, User, Truck } from 'lucide-react';
 
 const Header = () => {
   const { user, logout, isAuthenticated } = useAuth();
@@ -45,7 +45,7 @@ const Header = () => {
   return (
     <header style={headerStyle}>
       <div style={logoStyle}>
-        <BookOpen size={32} />
+        <Truck size={32} />
         <span>SEST SENAT</span>
       </div>
       
