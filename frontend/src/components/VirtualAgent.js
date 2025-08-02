@@ -113,11 +113,12 @@ const VirtualAgent = ({ courses, onCourseRecommend }) => {
   };
 
   const quickActions = [
+    'Como me inscrever?',
+    'Cursos são grátis?',
+    'Tem certificado?',
     'Cursos de liderança',
     'Cursos comportamentais',
-    'Cursos de transporte',
-    'Curso mais rápido',
-    'Todos os cursos'
+    'Cursos de transporte'
   ];
 
   const handleSendMessage = () => {
@@ -138,30 +139,66 @@ const VirtualAgent = ({ courses, onCourseRecommend }) => {
   const generateBotResponse = (userInput) => {
     const input = userInput.toLowerCase();
     
+    // Perguntas sobre inscrição
+    if (input.includes('como') && (input.includes('inscrever') || input.includes('matricular'))) {
+      return {
+        type: 'bot',
+        text: 'Para se inscrever em um curso: 1) Clique em "Saiba mais" no curso desejado, 2) Leia as informações detalhadas, 3) Clique em "Inscrever-se agora". É gratuito e imediato! 🎓'
+      };
+    }
+    
+    // Perguntas sobre certificado
+    if (input.includes('certificado') || input.includes('diploma')) {
+      return {
+        type: 'bot',
+        text: 'Sim! Todos os cursos do SEST SENAT oferecem certificado de conclusão reconhecido nacionalmente. Você recebe após completar 100% do conteúdo. 📜'
+      };
+    }
+    
+    // Perguntas sobre modalidade
+    if (input.includes('modalidade') || input.includes('online') || input.includes('presencial')) {
+      return {
+        type: 'bot',
+        text: 'Nossos cursos são 100% online, permitindo flexibilidade total. Você estuda no seu ritmo, quando e onde quiser, com acesso 24/7 ao conteúdo! 💻'
+      };
+    }
+    
+    // Perguntas sobre preço/valor
+    if (input.includes('preço') || input.includes('valor') || input.includes('custa') || input.includes('grátis')) {
+      return {
+        type: 'bot',
+        text: 'Todos os cursos são GRATUITOS! O SEST SENAT investe na capacitação profissional do setor de transporte. Sem custos, sem pegadinhas! 💰'
+      };
+    }
+    
+    // Busca por categoria
     if (input.includes('liderança') || input.includes('lider')) {
       const leadershipCourses = courses.filter(c => c.category === 'lideranca');
       return {
         type: 'bot',
-        text: `Encontrei ${leadershipCourses.length} curso(s) de liderança para você! Estes cursos desenvolvem habilidades de gestão e liderança no setor de transporte.`,
-        courses: leadershipCourses
+        text: `Encontrei ${leadershipCourses.length} curso(s) de liderança! Desenvolva habilidades de gestão e liderança no setor de transporte. Clique em um curso para se inscrever:`,
+        courses: leadershipCourses,
+        showEnrollButton: true
       };
     }
     
-    if (input.includes('comportamental') || input.includes('comportamento')) {
+    if (input.includes('comportamental') || input.includes('comportamento') || input.includes('segurança')) {
       const behavioralCourses = courses.filter(c => c.category === 'comportamental');
       return {
         type: 'bot',
-        text: `Temos ${behavioralCourses.length} curso(s) comportamental(is)! Focados em segurança e atitudes no trânsito.`,
-        courses: behavioralCourses
+        text: `Temos ${behavioralCourses.length} curso(s) comportamental(is)! Focados em segurança e atitudes no trânsito:`,
+        courses: behavioralCourses,
+        showEnrollButton: true
       };
     }
     
-    if (input.includes('transporte') || input.includes('frota')) {
+    if (input.includes('transporte') || input.includes('frota') || input.includes('logística')) {
       const transportCourses = courses.filter(c => c.category === 'transporte');
       return {
         type: 'bot',
-        text: `Perfeito! Temos ${transportCourses.length} curso(s) técnico(s) de transporte sobre gestão de frotas e logística.`,
-        courses: transportCourses
+        text: `Perfeito! ${transportCourses.length} curso(s) técnico(s) de transporte sobre gestão de frotas e logística:`,
+        courses: transportCourses,
+        showEnrollButton: true
       };
     }
     
@@ -171,22 +208,25 @@ const VirtualAgent = ({ courses, onCourseRecommend }) => {
       );
       return {
         type: 'bot',
-        text: `O curso mais rápido é "${shortestCourse.title}" com ${shortestCourse.duration}h de duração!`,
-        courses: [shortestCourse]
+        text: `O curso mais rápido é "${shortestCourse.title}" com ${shortestCourse.duration}h de duração! Quer se inscrever?`,
+        courses: [shortestCourse],
+        showEnrollButton: true
       };
     }
     
     if (input.includes('todos') || input.includes('disponível')) {
       return {
         type: 'bot',
-        text: `Temos ${courses.length} cursos disponíveis nas áreas de Liderança, Comportamental e Transporte. Todos focados no desenvolvimento profissional!`,
-        courses: courses
+        text: `Temos ${courses.length} cursos disponíveis nas áreas de Liderança, Comportamental e Transporte. Todos gratuitos e com certificado!`,
+        courses: courses,
+        showEnrollButton: true
       };
     }
 
+    // Resposta padrão mais útil
     return {
       type: 'bot',
-      text: 'Posso ajudá-lo a encontrar cursos por categoria (liderança, comportamental, transporte) ou características específicas. O que você procura?'
+      text: 'Posso ajudar com: 📚 Encontrar cursos por categoria, ❓ Tirar dúvidas sobre inscrições, 📜 Informações sobre certificados, 💰 Valores dos cursos. O que você gostaria de saber?'
     };
   };
 
@@ -245,9 +285,32 @@ const VirtualAgent = ({ courses, onCourseRecommend }) => {
                         <div style={{ fontWeight: 'bold', fontSize: '0.875rem' }}>
                           {course.title}
                         </div>
-                        <div style={{ fontSize: '0.75rem', color: '#6b7280' }}>
-                          {course.duration}h • {course.instructor}
+                        <div style={{ fontSize: '0.75rem', color: '#6b7280', marginBottom: '0.5rem' }}>
+                          {course.duration}h • {course.instructor} • GRATUITO
                         </div>
+                        {message.showEnrollButton && (
+                          <button
+                            style={{
+                              background: '#10b981',
+                              color: 'white',
+                              border: 'none',
+                              borderRadius: '0.25rem',
+                              padding: '0.25rem 0.75rem',
+                              fontSize: '0.75rem',
+                              cursor: 'pointer'
+                            }}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              // Simular inscrição
+                              setMessages(prev => [...prev, {
+                                type: 'bot',
+                                text: `✅ Inscrição realizada com sucesso no curso "${course.title}"! Você já pode acessar o conteúdo.`
+                              }]);
+                            }}
+                          >
+                            Inscrever-se
+                          </button>
+                        )}
                       </div>
                     ))}
                   </div>

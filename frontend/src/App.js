@@ -5,6 +5,7 @@ import Header from './components/Header';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import CourseDetail from './pages/CourseDetail';
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -35,6 +36,14 @@ const AppContent = () => {
           element={
             <ProtectedRoute>
               <Dashboard />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/course/:id" 
+          element={
+            <ProtectedRoute>
+              <CourseDetail />
             </ProtectedRoute>
           } 
         />

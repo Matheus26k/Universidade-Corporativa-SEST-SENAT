@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import { Clock, User, BookOpen, Info, X } from 'lucide-react';
+import { Clock, User, BookOpen, Info, X, ExternalLink } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const CourseCard = ({ course, onEnroll, isEnrolled, showEnrollButton = true }) => {
   const [showModal, setShowModal] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
+  const navigate = useNavigate();
   const cardStyle = {
     background: 'white',
     borderRadius: '1rem',
@@ -134,9 +137,29 @@ const CourseCard = ({ course, onEnroll, isEnrolled, showEnrollButton = true }) =
     'transporte': 'Curso técnico especializado em gestão moderna de frotas. Cobre otimização de rotas, manutenção preventiva, controle de custos, tecnologias de rastreamento, sustentabilidade e compliance regulatório. Essencial para gestores que buscam eficiência operacional e redução de custos.'
   };
 
+  const previewStyle = {
+    position: 'absolute',
+    top: '100%',
+    left: '0',
+    right: '0',
+    background: 'rgba(255, 255, 255, 0.98)',
+    backdropFilter: 'blur(10px)',
+    border: '1px solid rgba(0, 0, 0, 0.1)',
+    borderRadius: '0 0 1rem 1rem',
+    padding: '1rem',
+    zIndex: 10,
+    boxShadow: '0 10px 25px rgba(0, 0, 0, 0.2)',
+    transform: showPreview ? 'translateY(0)' : 'translateY(-10px)',
+    opacity: showPreview ? 1 : 0,
+    transition: 'all 0.3s ease',
+    pointerEvents: showPreview ? 'auto' : 'none'
+  };
+
   return (
     <div 
-      style={cardStyle}
+      style={{...cardStyle, position: 'relative'}}
+      onMouseEnter={() => setShowPreview(true)}
+      onMouseLeave={() => setShowPreview(false)}
       onMouseOver={(e) => {
         e.currentTarget.style.transform = 'translateY(-5px)';
         e.currentTarget.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.15)';
@@ -246,6 +269,19 @@ const CourseCard = ({ course, onEnroll, isEnrolled, showEnrollButton = true }) =
             <div style={{display: 'flex', gap: '1rem'}}>
               <button 
                 style={{
+                  ...saibaMaisButtonStyle,
+                  flex: 1,
+                  background: '#6366f1'
+                }}
+                onClick={() => {
+                  navigate(`/course/${course.id}`);
+                }}
+              >
+                <ExternalLink size={16} style={{ display: 'inline', marginRight: '0.5rem' }} />
+                Ver Detalhes
+              </button>
+              <button 
+                style={{
                   ...buttonStyle,
                   flex: 1
                 }}
@@ -263,6 +299,34 @@ const CourseCard = ({ course, onEnroll, isEnrolled, showEnrollButton = true }) =
           </div>
         </div>
       )}
+      
+      <div style={previewStyle}>
+        <div style={{fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem', color: '#1f2937'}}>
+          Prévia do Curso
+        </div>
+        <div style={{fontSize: '0.75rem', color: '#6b7280', lineHeight: '1.4', marginBottom: '0.75rem'}}>
+          {detailedDescriptions[course.category]?.substring(0, 120)}...
+        </div>
+        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+          <div style={{fontSize: '0.75rem', color: '#10b981', fontWeight: 'bold'}}>
+            GRATUITO
+          </div>
+          <button
+            style={{
+              background: '#3b82f6',
+              color: 'white',
+              border: 'none',
+              borderRadius: '0.25rem',
+              padding: '0.25rem 0.75rem',
+              fontSize: '0.75rem',
+              cursor: 'pointer'
+            }}
+            onClick={() => navigate(`/course/${course.id}`)}
+          >
+            Ver Mais
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
