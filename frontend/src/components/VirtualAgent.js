@@ -6,7 +6,7 @@ const VirtualAgent = ({ courses, onCourseRecommend }) => {
   const [messages, setMessages] = useState([
     {
       type: 'bot',
-      text: 'Olá! Sou o assistente virtual do SEST SENAT. Como posso ajudá-lo a encontrar o curso ideal?'
+      text: 'Olá! 🚀 Sou o assistente virtual da Universidade do Transporte SEST SENAT! Estou aqui para te ajudar a navegar pela plataforma, encontrar cursos ideais e tirar todas as suas dúvidas. Como posso ajudar hoje?'
     }
   ]);
   const [inputText, setInputText] = useState('');
@@ -113,12 +113,12 @@ const VirtualAgent = ({ courses, onCourseRecommend }) => {
   };
 
   const quickActions = [
+    'Olá! Como funciona?',
     'Como me inscrever?',
     'Cursos são grátis?',
     'Tem certificado?',
-    'Cursos de liderança',
-    'Cursos comportamentais',
-    'Cursos de transporte'
+    'Sobre o SEST SENAT',
+    'Ver todos os cursos'
   ];
 
   const handleSendMessage = () => {
@@ -139,94 +139,154 @@ const VirtualAgent = ({ courses, onCourseRecommend }) => {
   const generateBotResponse = (userInput) => {
     const input = userInput.toLowerCase();
     
+    // Saudações e apresentação
+    if (input.includes('oi') || input.includes('olá') || input.includes('bom dia') || input.includes('boa tarde') || input.includes('boa noite')) {
+      return {
+        type: 'bot',
+        text: 'Olá! 🚀 Sou o assistente virtual do SEST SENAT! Estou aqui para ajudá-lo a navegar pela nossa plataforma de cursos. Posso ajudar você a encontrar cursos, tirar dúvidas sobre inscrições e muito mais. Como posso ajudar hoje?'
+      };
+    }
+    
+    // Sobre o SEST SENAT
+    if (input.includes('sest') || input.includes('senat') || input.includes('sobre') && input.includes('empresa')) {
+      return {
+        type: 'bot',
+        text: 'O SEST SENAT é a Universidade do Transporte! 🚛 Somos especialistas em capacitação profissional para o setor de transporte. Oferecemos cursos gratuitos nas áreas de Liderança, Comportamental e Gestão de Transporte, todos com certificado reconhecido nacionalmente!'
+      };
+    }
+    
+    // Navegação do site
+    if (input.includes('como') && (input.includes('navegar') || input.includes('usar') || input.includes('site'))) {
+      return {
+        type: 'bot',
+        text: 'Navegar é fácil! 📱 No dashboard você encontra: • Abas "Todos os Cursos" e "Meus Cursos" • Filtros por categoria • Busca por nome • Botão "Saiba mais" para detalhes • "Ver Detalhes" para página completa. Quer que eu mostre algum curso específico?'
+      };
+    }
+    
     // Perguntas sobre inscrição
     if (input.includes('como') && (input.includes('inscrever') || input.includes('matricular'))) {
       return {
         type: 'bot',
-        text: 'Para se inscrever em um curso: 1) Clique em "Saiba mais" no curso desejado, 2) Leia as informações detalhadas, 3) Clique em "Inscrever-se agora". É gratuito e imediato! 🎓'
+        text: 'Super fácil se inscrever! 🎓 Você pode: 1️⃣ Clicar em "Inscrever-se" direto no card do curso, 2️⃣ Ou clicar em "Saiba mais" → "Ver Detalhes" para conhecer melhor o curso, 3️⃣ Ou até mesmo me pedir para te inscrever aqui no chat! 😉'
       };
     }
     
-    // Perguntas sobre certificado
+    // Certificados
     if (input.includes('certificado') || input.includes('diploma')) {
       return {
         type: 'bot',
-        text: 'Sim! Todos os cursos do SEST SENAT oferecem certificado de conclusão reconhecido nacionalmente. Você recebe após completar 100% do conteúdo. 📜'
+        text: 'Claro que sim! 🏆 Todos os nossos cursos oferecem certificado de conclusão reconhecido nacionalmente. Você recebe automaticamente após completar 100% do conteúdo. É digital, válido em todo Brasil e pode ser usado para comprovação profissional!'
       };
     }
     
-    // Perguntas sobre modalidade
-    if (input.includes('modalidade') || input.includes('online') || input.includes('presencial')) {
+    // Modalidade e acesso
+    if (input.includes('modalidade') || input.includes('online') || input.includes('presencial') || input.includes('acesso')) {
       return {
         type: 'bot',
-        text: 'Nossos cursos são 100% online, permitindo flexibilidade total. Você estuda no seu ritmo, quando e onde quiser, com acesso 24/7 ao conteúdo! 💻'
+        text: 'Nossos cursos são 100% online! 💻 Isso significa total flexibilidade: estude quando quiser, onde estiver, no seu ritmo. Acesso 24/7 pelo computador, tablet ou celular. Perfeito para quem tem rotina corrida no transporte! 🕰️'
       };
     }
     
-    // Perguntas sobre preço/valor
-    if (input.includes('preço') || input.includes('valor') || input.includes('custa') || input.includes('grátis')) {
+    // Preços e custos
+    if (input.includes('preço') || input.includes('valor') || input.includes('custa') || input.includes('grátis') || input.includes('pagar')) {
       return {
         type: 'bot',
-        text: 'Todos os cursos são GRATUITOS! O SEST SENAT investe na capacitação profissional do setor de transporte. Sem custos, sem pegadinhas! 💰'
+        text: 'Todos os cursos são 100% GRATUITOS! 🎉 O SEST SENAT investe na capacitação do setor de transporte. Zero custos, zero pegadinhas, zero mensalidades. Só conhecimento de qualidade para você! 💰✨'
       };
     }
     
-    // Busca por categoria
-    if (input.includes('liderança') || input.includes('lider')) {
+    // Duração e tempo
+    if (input.includes('quanto tempo') || input.includes('duração') || input.includes('demora')) {
+      return {
+        type: 'bot',
+        text: `Nossos cursos variam de ${Math.min(...courses.map(c => c.duration))}h a ${Math.max(...courses.map(c => c.duration))}h! ⏰ Mas lembre-se: você estuda no seu ritmo. Pode fazer em dias ou semanas, como preferir. Quer saber a duração de algum curso específico?`
+      };
+    }
+    
+    // Instrutores
+    if (input.includes('professor') || input.includes('instrutor') || input.includes('quem ensina')) {
+      return {
+        type: 'bot',
+        text: 'Temos instrutores especialistas! 👨‍🏫 Profissionais com vasta experiência no setor de transporte: Dr. Carlos Silva (Liderança), Dra. Ana Santos (Comportamental), Eng. Roberto Lima (Gestão). Todos com formação sólida e prática no mercado!'
+      };
+    }
+    
+    // Busca por categoria - Liderança
+    if (input.includes('liderança') || input.includes('lider') || input.includes('gestão') || input.includes('gerenciar')) {
       const leadershipCourses = courses.filter(c => c.category === 'lideranca');
       return {
         type: 'bot',
-        text: `Encontrei ${leadershipCourses.length} curso(s) de liderança! Desenvolva habilidades de gestão e liderança no setor de transporte. Clique em um curso para se inscrever:`,
+        text: `Excelente escolha! 👑 Encontrei ${leadershipCourses.length} curso(s) de liderança. Estes cursos desenvolvem habilidades de gestão, comunicação e liderança no setor de transporte. Perfeito para quem quer crescer na carreira!`,
         courses: leadershipCourses,
         showEnrollButton: true
       };
     }
     
-    if (input.includes('comportamental') || input.includes('comportamento') || input.includes('segurança')) {
+    // Busca por categoria - Comportamental
+    if (input.includes('comportamental') || input.includes('comportamento') || input.includes('segurança') || input.includes('trânsito')) {
       const behavioralCourses = courses.filter(c => c.category === 'comportamental');
       return {
         type: 'bot',
-        text: `Temos ${behavioralCourses.length} curso(s) comportamental(is)! Focados em segurança e atitudes no trânsito:`,
+        text: `Segurança em primeiro lugar! 🛡️ Temos ${behavioralCourses.length} curso(s) comportamental(is) focados em segurança no trânsito, direção defensiva e atitudes responsáveis. Essencial para todo profissional do transporte!`,
         courses: behavioralCourses,
         showEnrollButton: true
       };
     }
     
-    if (input.includes('transporte') || input.includes('frota') || input.includes('logística')) {
+    // Busca por categoria - Transporte
+    if (input.includes('transporte') || input.includes('frota') || input.includes('logística') || input.includes('caminhão')) {
       const transportCourses = courses.filter(c => c.category === 'transporte');
       return {
         type: 'bot',
-        text: `Perfeito! ${transportCourses.length} curso(s) técnico(s) de transporte sobre gestão de frotas e logística:`,
+        text: `Perfeito para o setor! 🚛 ${transportCourses.length} curso(s) técnico(s) de transporte cobrindo gestão de frotas, logística, otimização de rotas e tecnologias modernas. O que todo gestor de transporte precisa saber!`,
         courses: transportCourses,
         showEnrollButton: true
       };
     }
     
-    if (input.includes('rápido') || input.includes('curto')) {
+    // Curso mais rápido
+    if (input.includes('rápido') || input.includes('curto') || input.includes('menos tempo')) {
       const shortestCourse = courses.reduce((prev, current) => 
         prev.duration < current.duration ? prev : current
       );
       return {
         type: 'bot',
-        text: `O curso mais rápido é "${shortestCourse.title}" com ${shortestCourse.duration}h de duração! Quer se inscrever?`,
+        text: `Para quem tem pressa! ⚡ O curso mais rápido é "${shortestCourse.title}" com apenas ${shortestCourse.duration}h de conteúdo. Ideal para começar hoje mesmo! Quer se inscrever?`,
         courses: [shortestCourse],
         showEnrollButton: true
       };
     }
     
-    if (input.includes('todos') || input.includes('disponível')) {
+    // Todos os cursos
+    if (input.includes('todos') || input.includes('disponível') || input.includes('catálogo')) {
       return {
         type: 'bot',
-        text: `Temos ${courses.length} cursos disponíveis nas áreas de Liderança, Comportamental e Transporte. Todos gratuitos e com certificado!`,
+        text: `Nosso catálogo completo! 📚 Temos ${courses.length} cursos disponíveis nas áreas de Liderança, Comportamental e Transporte. Todos gratuitos, com certificado e 100% online. Vamos encontrar o ideal para você!`,
         courses: courses,
         showEnrollButton: true
       };
     }
+    
+    // Ajuda e suporte
+    if (input.includes('ajuda') || input.includes('suporte') || input.includes('problema')) {
+      return {
+        type: 'bot',
+        text: 'Estou aqui para ajudar! 🤝 Posso te auxiliar com: • Encontrar cursos ideais • Explicar como se inscrever • Tirar dúvidas sobre certificados • Navegar pelo site • Informações sobre instrutores. O que você precisa?'
+      };
+    }
+    
+    // Despedidas
+    if (input.includes('tchau') || input.includes('obrigado') || input.includes('valeu') || input.includes('até logo')) {
+      return {
+        type: 'bot',
+        text: 'Foi um prazer ajudar! 😊 Lembre-se: estou sempre aqui quando precisar. Bons estudos na Universidade do Transporte SEST SENAT! 🎓🚛 Até a próxima!'
+      };
+    }
 
-    // Resposta padrão mais útil
+    // Resposta inteligente padrão
     return {
       type: 'bot',
-      text: 'Posso ajudar com: 📚 Encontrar cursos por categoria, ❓ Tirar dúvidas sobre inscrições, 📜 Informações sobre certificados, 💰 Valores dos cursos. O que você gostaria de saber?'
+      text: 'Interessante! 🤔 Posso te ajudar com informações sobre: 📚 Nossos cursos (liderança, comportamental, transporte) ❓ Como se inscrever 📜 Certificados 💰 Preços (spoiler: é grátis!) 💻 Modalidade online. Sobre o que você gostaria de saber mais?'
     };
   };
 
