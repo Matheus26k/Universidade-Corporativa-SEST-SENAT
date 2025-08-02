@@ -25,7 +25,7 @@ const Dashboard = () => {
   const containerStyle = {
     minHeight: '100vh',
     background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)',
-    position: 'relative'
+    position: 'relative',
     padding: '2rem'
   };
 
