@@ -127,9 +127,12 @@ const CourseCard = ({ course, onEnroll, isEnrolled, showEnrollButton = true }) =
   };
 
   const courseImages = {
-    'lideranca': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=300&fit=crop&auto=format',
-    'comportamental': 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=500&h=300&fit=crop&auto=format',
-    'transporte': 'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=500&h=300&fit=crop&auto=format'
+    1: 'https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=500&h=300&fit=crop',
+    2: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=500&h=300&fit=crop',
+    3: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500&h=300&fit=crop',
+    4: 'https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=500&h=300&fit=crop',
+    5: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=500&h=300&fit=crop',
+    6: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=500&h=300&fit=crop'
   };
 
   const detailedDescriptions = {
@@ -173,7 +176,7 @@ const CourseCard = ({ course, onEnroll, isEnrolled, showEnrollButton = true }) =
       <div style={{
         position: 'relative',
         height: '200px',
-        backgroundImage: `url(${courseImages[course.category] || courseImages['comportamental']})`,
+        backgroundImage: `url(${courseImages[course.id] || courseImages[1]})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         display: 'flex',
@@ -264,7 +267,7 @@ const CourseCard = ({ course, onEnroll, isEnrolled, showEnrollButton = true }) =
             </h2>
             
             <img 
-              src={courseImages[course.category] || courseImages['comportamental']}
+              src={courseImages[course.id] || courseImages[1]}
               alt={course.title}
               style={{
                 width: '100%',

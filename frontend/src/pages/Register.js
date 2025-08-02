@@ -16,7 +16,7 @@ const Register = ({ onToggleMode }) => {
     alignItems: 'center',
     justifyContent: 'center',
     background: 'linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #0f172a 100%)',
-    backgroundImage: 'url("https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920&h=1080&fit=crop&overlay=1e3a8a&blend=multiply&sat=-30&exp=10")',
+    backgroundImage: 'url("https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=1920&h=1080&fit=crop")',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundAttachment: 'fixed',
