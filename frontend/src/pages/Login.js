@@ -16,16 +16,35 @@ const Login = ({ onToggleMode }) => {
     alignItems: 'center',
     justifyContent: 'center',
     background: 'linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #0f172a 100%)',
-    padding: '2rem'
+    backgroundImage: 'url("https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1920&h=1080&fit=crop&overlay=1e3a8a&blend=multiply&sat=-100&exp=15")',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundAttachment: 'fixed',
+    padding: '2rem',
+    position: 'relative'
+  };
+
+  const overlayStyle = {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: 'rgba(30, 58, 138, 0.8)',
+    zIndex: 1
   };
 
   const cardStyle = {
-    background: 'white',
+    background: 'rgba(255, 255, 255, 0.95)',
+    backdropFilter: 'blur(10px)',
     borderRadius: '1.5rem',
     padding: '3rem',
-    boxShadow: '0 25px 50px rgba(0, 0, 0, 0.15)',
+    boxShadow: '0 25px 50px rgba(0, 0, 0, 0.3)',
     width: '100%',
-    maxWidth: '400px'
+    maxWidth: '450px',
+    border: '1px solid rgba(255, 255, 255, 0.2)',
+    position: 'relative',
+    zIndex: 2
   };
 
   const logoStyle = {
@@ -132,6 +151,7 @@ const Login = ({ onToggleMode }) => {
 
   return (
     <div style={containerStyle}>
+      <div style={overlayStyle}></div>
       <div style={cardStyle}>
         <div style={logoStyle}>
           <Truck size={32} />

@@ -25,8 +25,24 @@ const Dashboard = () => {
   const containerStyle = {
     minHeight: '100vh',
     background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)',
+    backgroundImage: 'url("https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920&h=1080&fit=crop&overlay=0f172a&blend=multiply&sat=-50&exp=10")',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundAttachment: 'fixed',
     position: 'relative',
     padding: '2rem'
+  };
+
+  const bannerStyle = {
+    background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.9) 0%, rgba(30, 64, 175, 0.9) 100%)',
+    borderRadius: '1.5rem',
+    padding: '2rem',
+    marginBottom: '2rem',
+    color: 'white',
+    textAlign: 'center',
+    backdropFilter: 'blur(10px)',
+    border: '1px solid rgba(255, 255, 255, 0.1)',
+    boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)'
   };
 
   const headerStyle = {
@@ -61,9 +77,11 @@ const Dashboard = () => {
     cursor: 'pointer',
     fontWeight: 'bold',
     transition: 'all 0.3s',
-    background: isActive ? '#3b82f6' : 'white',
-    color: isActive ? 'white' : '#6b7280',
-    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+    background: isActive ? '#3b82f6' : 'rgba(255, 255, 255, 0.9)',
+    color: isActive ? 'white' : '#1f2937',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.2)',
+    backdropFilter: 'blur(10px)',
+    border: '1px solid rgba(255, 255, 255, 0.2)'
   });
 
   const filtersStyle = {
@@ -82,10 +100,13 @@ const Dashboard = () => {
   const searchInputStyle = {
     width: '100%',
     padding: '0.75rem 1rem 0.75rem 3rem',
-    border: '2px solid #e5e7eb',
+    border: '1px solid rgba(255, 255, 255, 0.2)',
     borderRadius: '0.75rem',
     fontSize: '1rem',
-    outline: 'none'
+    outline: 'none',
+    background: 'rgba(255, 255, 255, 0.9)',
+    backdropFilter: 'blur(10px)',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
   };
 
   const searchIconStyle = {
@@ -98,11 +119,13 @@ const Dashboard = () => {
 
   const selectStyle = {
     padding: '0.75rem 1rem',
-    border: '2px solid #e5e7eb',
+    border: '1px solid rgba(255, 255, 255, 0.2)',
     borderRadius: '0.75rem',
     fontSize: '1rem',
     outline: 'none',
-    background: 'white'
+    background: 'rgba(255, 255, 255, 0.9)',
+    backdropFilter: 'blur(10px)',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
   };
 
   const gridStyle = {
@@ -216,13 +239,33 @@ const Dashboard = () => {
 
   return (
     <div style={containerStyle}>
-      <div style={headerStyle}>
-        <h1 style={titleStyle}>
-          Bem-vindo, {user.name}!
+      <div style={bannerStyle}>
+        <h1 style={{...titleStyle, fontSize: '2.5rem', marginBottom: '1rem'}}>
+          🚛 Bem-vindo à Universidade do Transporte, {user.name}!
         </h1>
-        <p style={subtitleStyle}>
-          Explore nossos cursos de desenvolvimento profissional
+        <p style={{...subtitleStyle, fontSize: '1.25rem', marginBottom: '1rem'}}>
+          Desenvolva suas competências em Liderança, Comportamento e Gestão de Transporte
         </p>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          gap: '2rem',
+          marginTop: '1.5rem',
+          flexWrap: 'wrap'
+        }}>
+          <div style={{textAlign: 'center'}}>
+            <div style={{fontSize: '2rem', fontWeight: 'bold'}}>{courses.length}</div>
+            <div style={{fontSize: '0.875rem', opacity: 0.9}}>Cursos Disponíveis</div>
+          </div>
+          <div style={{textAlign: 'center'}}>
+            <div style={{fontSize: '2rem', fontWeight: 'bold'}}>{myCourses.length}</div>
+            <div style={{fontSize: '0.875rem', opacity: 0.9}}>Suas Inscrições</div>
+          </div>
+          <div style={{textAlign: 'center'}}>
+            <div style={{fontSize: '2rem', fontWeight: 'bold'}}>24/7</div>
+            <div style={{fontSize: '0.875rem', opacity: 0.9}}>Acesso Total</div>
+          </div>
+        </div>
       </div>
 
       <div style={tabsStyle}>
