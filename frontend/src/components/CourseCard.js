@@ -8,12 +8,13 @@ const CourseCard = ({ course, onEnroll, isEnrolled, showEnrollButton = true }) =
   const navigate = useNavigate();
   const cardStyle = {
     background: 'white',
-    borderRadius: '1rem',
-    padding: '1.5rem',
-    boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)',
+    borderRadius: '1.5rem',
+    padding: '0',
+    boxShadow: '0 15px 35px rgba(0, 0, 0, 0.1)',
     transition: 'transform 0.3s, box-shadow 0.3s',
     cursor: 'pointer',
-    border: '1px solid #e5e7eb'
+    border: '1px solid #e5e7eb',
+    overflow: 'hidden'
   };
 
   const categoryColors = {
@@ -126,9 +127,9 @@ const CourseCard = ({ course, onEnroll, isEnrolled, showEnrollButton = true }) =
   };
 
   const courseImages = {
-    'lideranca': 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=200&fit=crop',
-    'comportamental': 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=200&fit=crop',
-    'transporte': 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=200&fit=crop'
+    'lideranca': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=300&fit=crop&auto=format',
+    'comportamental': 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=500&h=300&fit=crop&auto=format',
+    'transporte': 'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=500&h=300&fit=crop&auto=format'
   };
 
   const detailedDescriptions = {
@@ -142,16 +143,16 @@ const CourseCard = ({ course, onEnroll, isEnrolled, showEnrollButton = true }) =
     top: '100%',
     left: '0',
     right: '0',
-    background: 'rgba(255, 255, 255, 0.98)',
-    backdropFilter: 'blur(10px)',
-    border: '1px solid rgba(0, 0, 0, 0.1)',
-    borderRadius: '0 0 1rem 1rem',
-    padding: '1rem',
+    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)',
+    backdropFilter: 'blur(15px)',
+    border: '1px solid rgba(59, 130, 246, 0.2)',
+    borderRadius: '0 0 1.5rem 1.5rem',
+    padding: '1.25rem',
     zIndex: 10,
-    boxShadow: '0 10px 25px rgba(0, 0, 0, 0.2)',
-    transform: showPreview ? 'translateY(0)' : 'translateY(-10px)',
+    boxShadow: '0 20px 40px rgba(0, 0, 0, 0.15)',
+    transform: showPreview ? 'translateY(0)' : 'translateY(-15px)',
     opacity: showPreview ? 1 : 0,
-    transition: 'all 0.3s ease',
+    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
     pointerEvents: showPreview ? 'auto' : 'none'
   };
 
@@ -169,54 +170,81 @@ const CourseCard = ({ course, onEnroll, isEnrolled, showEnrollButton = true }) =
         e.currentTarget.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.1)';
       }}
     >
-      <div style={categoryStyle}>
-        {categoryLabels[course.category] || course.category}
+      <div style={{
+        position: 'relative',
+        height: '200px',
+        backgroundImage: `url(${courseImages[course.category] || courseImages['comportamental']})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        display: 'flex',
+        alignItems: 'flex-end',
+        padding: '1rem'
+      }}>
+        <div style={{
+          position: 'absolute',
+          top: '1rem',
+          right: '1rem',
+          ...categoryStyle,
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
+        }}>
+          {categoryLabels[course.category] || course.category}
+        </div>
+        <div style={{
+          background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)',
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: '50%'
+        }}></div>
       </div>
       
-      <h3 style={titleStyle}>{course.title}</h3>
-      <p style={descriptionStyle}>{course.description}</p>
+      <div style={{padding: '1.5rem'}}>
+        <h3 style={{...titleStyle, fontSize: '1.375rem'}}>{course.title}</h3>
+        <p style={{...descriptionStyle, fontSize: '0.9rem'}}>{course.description}</p>
+        
+        <div style={metaStyle}>
+          <div style={metaItemStyle}>
+            <Clock size={16} />
+            <span>{course.duration}h</span>
+          </div>
+          <div style={metaItemStyle}>
+            <User size={16} />
+            <span>{course.instructor}</span>
+          </div>
+        </div>
       
-      <div style={metaStyle}>
-        <div style={metaItemStyle}>
-          <Clock size={16} />
-          <span>{course.duration}h</span>
-        </div>
-        <div style={metaItemStyle}>
-          <User size={16} />
-          <span>{course.instructor}</span>
-        </div>
+        {showEnrollButton && (
+          <>
+            <button 
+              style={{...saibaMaisButtonStyle, marginBottom: '0.75rem'}}
+              onClick={() => setShowModal(true)}
+              onMouseOver={(e) => e.target.style.background = '#4b5563'}
+              onMouseOut={(e) => e.target.style.background = '#6b7280'}
+            >
+              <Info size={16} style={{ display: 'inline', marginRight: '0.5rem' }} />
+              Saiba mais
+            </button>
+            <button 
+              style={buttonStyle}
+              onClick={() => !isEnrolled && onEnroll(course.id)}
+              onMouseOver={(e) => {
+                if (!isEnrolled) {
+                  e.target.style.background = '#2563eb';
+                }
+              }}
+              onMouseOut={(e) => {
+                if (!isEnrolled) {
+                  e.target.style.background = '#3b82f6';
+                }
+              }}
+            >
+              <BookOpen size={16} style={{ display: 'inline', marginRight: '0.5rem' }} />
+              {isEnrolled ? 'Inscrito' : 'Inscrever-se'}
+            </button>
+          </>
+        )}
       </div>
-      
-      {showEnrollButton && (
-        <>
-          <button 
-            style={saibaMaisButtonStyle}
-            onClick={() => setShowModal(true)}
-            onMouseOver={(e) => e.target.style.background = '#4b5563'}
-            onMouseOut={(e) => e.target.style.background = '#6b7280'}
-          >
-            <Info size={16} style={{ display: 'inline', marginRight: '0.5rem' }} />
-            Saiba mais
-          </button>
-          <button 
-            style={buttonStyle}
-            onClick={() => !isEnrolled && onEnroll(course.id)}
-            onMouseOver={(e) => {
-              if (!isEnrolled) {
-                e.target.style.background = '#2563eb';
-              }
-            }}
-            onMouseOut={(e) => {
-              if (!isEnrolled) {
-                e.target.style.background = '#3b82f6';
-              }
-            }}
-          >
-            <BookOpen size={16} style={{ display: 'inline', marginRight: '0.5rem' }} />
-            {isEnrolled ? 'Inscrito' : 'Inscrever-se'}
-          </button>
-        </>
-      )}
       {showModal && (
         <div style={modalOverlayStyle} onClick={() => setShowModal(false)}>
           <div style={modalContentStyle} onClick={(e) => e.stopPropagation()}>
@@ -301,29 +329,77 @@ const CourseCard = ({ course, onEnroll, isEnrolled, showEnrollButton = true }) =
       )}
       
       <div style={previewStyle}>
-        <div style={{fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem', color: '#1f2937'}}>
-          Prévia do Curso
-        </div>
-        <div style={{fontSize: '0.75rem', color: '#6b7280', lineHeight: '1.4', marginBottom: '0.75rem'}}>
-          {detailedDescriptions[course.category]?.substring(0, 120)}...
-        </div>
-        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-          <div style={{fontSize: '0.75rem', color: '#10b981', fontWeight: 'bold'}}>
-            GRATUITO
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.5rem',
+          marginBottom: '0.75rem'
+        }}>
+          <div style={{
+            width: '4px',
+            height: '20px',
+            background: categoryColors[course.category],
+            borderRadius: '2px'
+          }}></div>
+          <div style={{fontSize: '0.875rem', fontWeight: 'bold', color: '#1f2937'}}>
+            Prévia do Curso
           </div>
+        </div>
+        
+        <div style={{
+          fontSize: '0.8rem',
+          color: '#4b5563',
+          lineHeight: '1.5',
+          marginBottom: '1rem'
+        }}>
+          {detailedDescriptions[course.category]?.substring(0, 140)}...
+        </div>
+        
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          paddingTop: '0.75rem',
+          borderTop: '1px solid rgba(0, 0, 0, 0.1)'
+        }}>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem'
+          }}>
+            <div style={{
+              background: '#10b981',
+              color: 'white',
+              padding: '0.25rem 0.5rem',
+              borderRadius: '0.375rem',
+              fontSize: '0.75rem',
+              fontWeight: 'bold'
+            }}>
+              GRATUITO
+            </div>
+            <span style={{fontSize: '0.75rem', color: '#6b7280'}}>
+              {course.duration}h
+            </span>
+          </div>
+          
           <button
             style={{
-              background: '#3b82f6',
+              background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
               color: 'white',
               border: 'none',
-              borderRadius: '0.25rem',
-              padding: '0.25rem 0.75rem',
+              borderRadius: '0.5rem',
+              padding: '0.5rem 1rem',
               fontSize: '0.75rem',
-              cursor: 'pointer'
+              fontWeight: 'bold',
+              cursor: 'pointer',
+              boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)',
+              transition: 'transform 0.2s'
             }}
             onClick={() => navigate(`/course/${course.id}`)}
+            onMouseOver={(e) => e.target.style.transform = 'translateY(-1px)'}
+            onMouseOut={(e) => e.target.style.transform = 'translateY(0)'}
           >
-            Ver Mais
+            Ver Detalhes
           </button>
         </div>
       </div>

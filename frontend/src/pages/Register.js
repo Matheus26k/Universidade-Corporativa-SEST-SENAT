@@ -16,9 +16,7 @@ const Register = ({ onToggleMode }) => {
     alignItems: 'center',
     justifyContent: 'center',
     background: 'linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #0f172a 100%)',
-    backgroundImage: `
-      linear-gradient(135deg, rgba(30, 58, 138, 0.9) 0%, rgba(30, 64, 175, 0.8) 100%),
-      url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><pattern id="trucks" patternUnits="userSpaceOnUse" width="200" height="200"><g opacity="0.1"><path d="M40,120 L60,120 L60,100 L100,100 L100,80 L140,80 L140,100 L160,100 L160,120 L180,120 L180,140 L160,140 L160,160 L140,160 L140,140 L60,140 L60,160 L40,160 Z" fill="%23ffffff"/><circle cx="70" cy="150" r="8" fill="%23ffffff"/><circle cx="150" cy="150" r="8" fill="%23ffffff"/><text x="110" y="95" font-family="Arial" font-size="8" fill="%23ffffff" text-anchor="middle">SEST</text><text x="110" y="105" font-family="Arial" font-size="8" fill="%23ffffff" text-anchor="middle">SENAT</text></g></pattern></defs><rect width="100%" height="100%" fill="url(%23trucks)"/></svg>')`,
+    backgroundImage: 'url("https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920&h=1080&fit=crop&overlay=1e3a8a&blend=multiply&sat=-30&exp=10")',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundAttachment: 'fixed',
